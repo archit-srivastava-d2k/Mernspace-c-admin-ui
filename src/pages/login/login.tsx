@@ -4,11 +4,11 @@ import { LockFilled, UserOutlined, LockOutlined } from '@ant-design/icons';
 export default function LoginPage() {
     return (
         <>
-           <Layout style={{ height: '100vh', display: 'grid', placeItems: 'center' }}>
+            <Layout style={{ height: '100vh', display: 'grid', placeItems: 'center' }}>
                 <Space direction="vertical" align="center" size="large">
                     <Layout.Content
                         style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                      
+                     
                     </Layout.Content>
                     <Card
                         bordered={false}
@@ -23,11 +23,7 @@ export default function LoginPage() {
                         <Form
                             initialValues={{
                                 remember: true,
-                            }}
-                            onFinish={(values) => {
-                                console.log(values);
                             }}>
-                            
                             <Form.Item
                                 name="username"
                                 rules={[
@@ -61,11 +57,7 @@ export default function LoginPage() {
                                 </a>
                             </Flex>
                             <Form.Item>
-                                <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    style={{ width: '100%' }}
-                                   >
+                                <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
                                     Log in
                                 </Button>
                             </Form.Item>
