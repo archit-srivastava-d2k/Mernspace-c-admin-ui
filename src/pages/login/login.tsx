@@ -29,7 +29,7 @@ const getself = async () => {
 
 export default function LoginPage() {
   const {setUser} = useAuthStore()
-  const {data:selfData , refetch} = useQuery({
+  const {refetch} = useQuery({
     queryKey: ["self"],
     queryFn: getself,
     enabled: false
@@ -39,8 +39,8 @@ export default function LoginPage() {
     mutationFn: loginUser,
     onSuccess: async () => {
     const PromiseData = await  refetch();
-      setUser(selfData);
-      console.log("User data:", PromiseData.data);
+      setUser(PromiseData.data);
+      console.log("User data:", PromiseData);
      console.log("Login successful.");
     },
   });
