@@ -8,3 +8,7 @@ export const login =(credentials:credentials) => {
 export const self = () => {
     return api.get('/auth/self')
 }
+
+export const logout = () => {
+    return api.post('/auth/logout')
+}
