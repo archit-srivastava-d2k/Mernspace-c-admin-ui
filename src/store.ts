@@ -5,8 +5,13 @@ export interface User {
   email: string;
   name: string;
   role: string;
+   tenant?: Tenant;
 }
-
+interface Tenant {
+    id: number;
+    name: string;
+    address: string;
+}
 interface AuthState {
     user: User | null;
     setUser: (user: User | null) => void;
