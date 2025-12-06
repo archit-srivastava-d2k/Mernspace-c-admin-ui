@@ -13,7 +13,7 @@ import {
 import { UserOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../store';
 import { Link } from 'react-router-dom';
-import React, { ComponentType } from 'react';
+import  { type ComponentType } from 'react';
 
 const { Title, Text } = Typography;
 

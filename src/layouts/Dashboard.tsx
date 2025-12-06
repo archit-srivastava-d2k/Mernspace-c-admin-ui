@@ -13,13 +13,14 @@ import {
 import Sider from "antd/es/layout/Sider";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import { useState } from "react";
-import {
+import Icon, {
   BellFilled,
   GiftOutlined,
   HomeOutlined,
   ProductOutlined,
   ReadOutlined,
   UserOutlined,
+
 } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "../http/api";
@@ -34,17 +35,16 @@ const Dashboard = () => {
       return;
     },
   });
-  const items = [
+
+  function getMenuItems(role : string) {
+
+   const baseItems = [
     {
       key: "/",
       icon: <HomeOutlined />,
       label: <NavLink to="/">Home</NavLink>,
     },
-    {
-      key: "/users",
-      icon: <UserOutlined />,
-      label: <NavLink to="/users">Users</NavLink>,
-    },
+   
     {
       key: "/restaurants",
       icon: <ReadOutlined />,
@@ -61,6 +61,19 @@ const Dashboard = () => {
       label: <NavLink to="/promos">Promos</NavLink>,
     },
   ];
+    if (role === 'admin') {
+        const menus = [...baseItems];
+        menus.splice(1, 0, {
+            key: '/users',
+            icon: <UserOutlined />,
+            label: <NavLink to="/users">Users</NavLink>,
+        });
+        return menus;
+    }
+
+    return baseItems;
+};
+
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -69,7 +82,9 @@ const Dashboard = () => {
   const { user } = useAuthStore();
   if (user === null) {
     return <Navigate to="/auth/login" replace={true} />;
+
   }
+   const items = getMenuItems(user.role);
   return (
     <div>
       <Layout style={{ minHeight: "100vh", background: colorBgContainer }}>

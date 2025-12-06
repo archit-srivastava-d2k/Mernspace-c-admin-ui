@@ -1,9 +1,11 @@
 import { Breadcrumb, Space, Table } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getUsers } from '../../http/api';
 import type { User } from '../../Types';
+import { useAuthStore } from '../../store';
+import UsersFilter from './UsersFilter';
 
 
 
@@ -36,8 +38,12 @@ const columns = [
         key: 'role',
     },
 ];
+  
+
 
 const Users = () => {
+
+  
     const {
         data: users,
         isLoading,
@@ -48,9 +54,17 @@ const Users = () => {
         queryFn: () => {
             return getUsers().then((res) => res.data);
         },
+        select: (res) => (res.data)
     });
+    const { user } = useAuthStore();
+
+    if (user?.role !== 'admin') {
+        return <Navigate to="/" replace={true} />;
+    }
 
     return (
+
+      
         <>
             <Space direction="vertical" size="large" style={{ width: '100%' }}>
                 <Breadcrumb
@@ -60,7 +74,13 @@ const Users = () => {
                 {isLoading && <div>Loading...</div>}
                 {isError && <div>{error.message}</div>}
 
-                <Table columns={columns} dataSource={users} />
+                  <UsersFilter
+                    onFilterChange={(filterName: string, filterValue: string) => {
+                        console.log(filterName, filterValue);
+                    }}
+                />
+
+                <Table columns={columns} dataSource={users}  rowKey={'id'} />
             </Space>
         </>
     );
