@@ -1,4 +1,4 @@
-import type { credentials } from "../Types"
+import type { CreateUserData, credentials } from "../Types"
 import { api } from "./client"
 
 
@@ -13,8 +13,6 @@ export const logout = () => {
     return api.post('/auth/logout')
 }
 
-export const getUsers = () => {
-    return api.get('/users')
-}
-
-export const getTenants = () => api.get('/tenants');
+export const getUsers = (queryString: string) => api.get(`/users?${queryString}`);
+export const getTenants = () => api.get('/tenants/');
+export const createUser = (user: CreateUserData) => api.post('/users', user);
