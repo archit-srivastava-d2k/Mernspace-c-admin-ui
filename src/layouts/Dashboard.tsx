@@ -1,4 +1,4 @@
-import { Navigate, NavLink, Outlet } from "react-router-dom";
+import { Navigate, NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store";
 import {
   Avatar,
@@ -20,7 +20,6 @@ import Icon, {
   ProductOutlined,
   ReadOutlined,
   UserOutlined,
-
 } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "../http/api";
@@ -36,55 +35,61 @@ const Dashboard = () => {
     },
   });
 
-  function getMenuItems(role : string) {
+  function getMenuItems(role: string) {
+    const baseItems = [
+      {
+        key: "/",
+        icon: <HomeOutlined />,
+        label: <NavLink to="/">Home</NavLink>,
+      },
 
-   const baseItems = [
-    {
-      key: "/",
-      icon: <HomeOutlined />,
-      label: <NavLink to="/">Home</NavLink>,
-    },
-   
-    {
-      key: "/restaurants",
-      icon: <ReadOutlined />,
-      label: <NavLink to="/restaurants">Restaurants</NavLink>,
-    },
-    {
-      key: "/products",
-      icon: <ProductOutlined />,
-      label: <NavLink to="/products">Products</NavLink>,
-    },
-    {
-      key: "/promos",
-      icon: <GiftOutlined />,
-      label: <NavLink to="/promos">Promos</NavLink>,
-    },
-  ];
-    if (role === 'admin') {
-        const menus = [...baseItems];
-        menus.splice(1, 0, {
-            key: '/users',
-            icon: <UserOutlined />,
-            label: <NavLink to="/users">Users</NavLink>,
-        });
-        return menus;
+     
+      {
+        key: "/products",
+        icon: <ProductOutlined />,
+        label: <NavLink to="/products">Products</NavLink>,
+      },
+      {
+        key: "/promos",
+        icon: <GiftOutlined />,
+        label: <NavLink to="/promos">Promos</NavLink>,
+      },
+    ];
+    if (role === "admin") {
+      const menus = [...baseItems];
+     menus.splice(1, 0,
+  {
+    key: "/users",
+    icon: <UserOutlined />,
+    label: <NavLink to="/users">Users</NavLink>,
+  },
+  {
+    key: "/restaurants",
+    icon: <ReadOutlined />,
+    label: <NavLink to="/restaurants">Restaurants</NavLink>,
+  }
+);
+
+      
+      return menus;
     }
 
     return baseItems;
-};
+  }
 
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const location = useLocation();
   const { user } = useAuthStore();
   if (user === null) {
-    return <Navigate to="/auth/login" replace={true} />;
-
+    return (
+      <Navigate to="/auth/login" state={{ from: location }} replace={true} />
+    );
   }
-   const items = getMenuItems(user.role);
+  const items = getMenuItems(user.role);
   return (
     <div>
       <Layout style={{ minHeight: "100vh", background: colorBgContainer }}>
@@ -100,7 +105,7 @@ const Dashboard = () => {
 
           <Menu
             theme="light"
-            defaultSelectedKeys={["/"]}
+            selectedKeys={[location.pathname]}
             mode="inline"
             items={items}
           />

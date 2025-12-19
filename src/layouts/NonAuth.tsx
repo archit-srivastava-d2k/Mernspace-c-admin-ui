@@ -1,17 +1,20 @@
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store";
 
 const NonAuth = () => {
-    const { user } = useAuthStore();
-    if (user !== null) {
-        return <Navigate to="/" replace={true} />;
-    }
+  const { user } = useAuthStore();
+  const location = useLocation();
+
+  if (user !== null) {
+    const from = location.state?.from?.pathname || "/";
+    return <Navigate to={from} replace={true} />;
+  }
   return (
     <div>
-        <h1>fasf</h1>
-      <Outlet/>
+      <h1>fasf</h1>
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default NonAuth
+export default NonAuth;

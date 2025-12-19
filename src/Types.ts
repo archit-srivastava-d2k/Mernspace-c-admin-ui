@@ -9,6 +9,8 @@ export type User = {
     firstName: string;
     lastName: string;
     createdAt: string;
+    role: string;
+    tenant?: Tenant
 };
 
 
