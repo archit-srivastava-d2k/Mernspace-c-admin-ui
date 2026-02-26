@@ -8,8 +8,8 @@ type UserFormProps = {
 };
 
 const UserForm = ({ isEditMode }: UserFormProps) => {
-  const selectedRole = Form.useWatch('role');
-  
+  const selectedRole = Form.useWatch("role");
+
   const { data: tenants } = useQuery({
     queryKey: ["tenants"],
     queryFn: async () => {
@@ -82,7 +82,10 @@ const UserForm = ({ isEditMode }: UserFormProps) => {
                 <Col span={12}>
                   <Form.Item
                     rules={[
-                      { required: true, message: "Please input your password!" },
+                      {
+                        required: true,
+                        message: "Please input your password!",
+                      },
                     ]}
                     label="Password"
                     name="password"
