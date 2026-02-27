@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useAuthStore } from "../store";
-import { AUTH_SERVICE } from "../constants";
+import { AUTH_ROUTE } from "../constants";
 
  export const api = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_API_URL,
@@ -13,7 +13,7 @@ import { AUTH_SERVICE } from "../constants";
   });
   const refreshToken = async () => {
     await axios.post(
-        `${import.meta.env.VITE_BACKEND_API_URL}${AUTH_SERVICE}/refresh`,
+        `${import.meta.env.VITE_BACKEND_API_URL}${AUTH_ROUTE}/refresh`,
 
         {},
         {
